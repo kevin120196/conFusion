@@ -9,6 +9,7 @@ import { DishdetailComponent } from '../dishdetail/dishdetail.component';
 export const routes:Routes = [
     {path: 'home',component: HomeComponent},
     {path: 'Menu', component: MenuComponent},
+    {path: 'dishDetail/:id', component:DishdetailComponent},
     {path: 'About', component: AboutComponent},
     {path: 'Contact', component: ContactComponent},
     {path: 'Detail', component: DishdetailComponent},
