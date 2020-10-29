@@ -8,10 +8,10 @@ import { DishdetailComponent } from '../dishdetail/dishdetail.component';
 
 export const routes:Routes = [
     {path: 'home',component: HomeComponent},
-    {path: 'Menu', component: MenuComponent},
+    {path: 'menu', component: MenuComponent},
     {path: 'dishDetail/:id', component:DishdetailComponent},
-    {path: 'About', component: AboutComponent},
-    {path: 'Contact', component: ContactComponent},
-    {path: 'Detail', component: DishdetailComponent},
+    {path: 'aboutus', component: AboutComponent},
+    {path: 'contact', component: ContactComponent},
+    {path: 'detail', component: DishdetailComponent},
     {path: '', redirectTo: '/home', pathMatch:'full'}
 ];
