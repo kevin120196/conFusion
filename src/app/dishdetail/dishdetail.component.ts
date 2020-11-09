@@ -20,7 +20,8 @@ export class DishdetailComponent implements OnInit {
   prev:string;
   next:string;
   errMsg:string;
-
+  dishcopy:Dish;
+  comments:Comment;
   commentForm:FormGroup;
   comment:Comment[]=[];
   @ViewChild('cform') commentFormDirective;
@@ -59,7 +60,7 @@ export class DishdetailComponent implements OnInit {
       .subscribe(dishes => this.dish=dishes); */
     this.route.params
       .pipe(switchMap((params:Params) => this.dishService.getDish(params['id'])))
-      .subscribe(dishes => {this.dish=dishes; this.setPrevNext(dishes.id);},
+      .subscribe(dishes => {this.dish=dishes;this.dishcopy=this.dish, this.setPrevNext(dishes.id);},
       errMsg => this.errMsg = <any>errMsg);
   }
 
@@ -86,7 +87,7 @@ export class DishdetailComponent implements OnInit {
   createForm(){
     this.commentForm=this.fb.group({
       author:['',[Validators.required,Validators.minLength(2)]],
-      rating:1,
+      rating:5,
       comment:['',[Validators.required,Validators.minLength(2)]]
     });
 
@@ -96,16 +97,25 @@ export class DishdetailComponent implements OnInit {
   }
 
   onSubmit(){
-    let day= new Date();
-    this.dish.comments.push({rating:this.commentForm.value.rating,comment:this.commentForm.value.comment,author:this.commentForm.value.author,date:day.toISOString()});
-    //console.log(this.dish.comments);
+    //let day= new Date();
+    //this.dish.comments.push({rating:this.commentForm.value.rating,comment:this.commentForm.value.comment,author:this.commentForm.value.author,date:day.toISOString()});
+    this.comments=this.commentForm.value;
+    this.comments.date=new Date().toISOString();
+    this.dishcopy.comments.push(this.comments);
+    this.dishService.putDish(this.dishcopy)
+      .subscribe(dish => {
+        this.dish = dish; this.dishcopy = dish;
+      },
+        errMsg => { this.dish = null; this.dishcopy=null; this.errMsg = <any>errMsg; });
+    //console.log(this.comments);
+    this.commentFormDirective.resetForm();
+
     this.commentForm.reset({
       author:'',
       comment:'',
       rating:5
     });
 
-    this.commentFormDirective.resetForm(this.commentForm.errors);
     
   }
 
